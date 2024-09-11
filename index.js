@@ -12,17 +12,26 @@ const fileNameOfUrl = (url) =>{
     return fileName;
 };
 
-const server = http.createServer((req, res) =>{
-    console.log(`The URL for the request was '${req.url}'`);
-    console.log(`Method: '${req.method}'`);
+const fileCheck=(req)=>{
+    let content = '';
+    if(fs.existsSync(`./static/${req}`)){
+        content=req;
+    }else{
+        content='404.html';
+    };
+    const file=fs.readFileSync(`./static/${content}`,'utf-8');
+    return file;
+};
 
+const server = http.createServer((req, res) =>{
     const fileName = fileNameOfUrl(req.url);
     if(fileName==='favicon.ico'){
         res.statusCode = 404;
         res.end('')
         return;
     };
-    const Content = fs.readFileSync(`./static/${fileName}`,'utf-8');
+    // const Content = fs.readFileSync(`./static/${fileName}`,'utf-8');
+    const Content =fileCheck(fileName); 
 
     res.statusCode=200;
     res.setHeader('Content-Type','text/html');
