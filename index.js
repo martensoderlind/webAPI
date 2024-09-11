@@ -17,6 +17,11 @@ const server = http.createServer((req, res) =>{
     console.log(`Method: '${req.method}'`);
 
     const fileName = fileNameOfUrl(req.url);
+    if(fileName==='favicon.ico'){
+        res.statusCode = 404;
+        res.end('')
+        return;
+    };
     const Content = fs.readFileSync(`./static/${fileName}`,'utf-8');
 
     res.statusCode=200;
