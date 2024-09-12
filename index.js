@@ -5,7 +5,12 @@ const db =[
   id: 1,
   name: "Mårten Dev",
   email: 'mårten@salt.dev'
-}
+},
+{
+  id: 2,
+  name: "Marcus Dev",
+  email: 'marcus@salt.dev'
+},
 ];
 
 
@@ -18,6 +23,17 @@ app.get('/', (req, res) => {
 
   app.get('/api/developers',(req, res)=>{
     res.json(db);
+  });
+  
+  app.get('/api/developers/:id',(req, res)=>{
+    const id = req.params.id;
+    for(let i =0;i<db.length;i++){
+      if(db[i].id===id){
+        res.json(db[i]);
+        return;
+      };
+    };
+    res.status(404).end;
   });
 
 const port = 3000;
