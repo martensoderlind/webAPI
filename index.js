@@ -1,13 +1,20 @@
 const express = require('express');
 const app = express();
-const morgan = require("morgan");
+const db =[
+{
+  id: 1,
+  name: "Mårten Dev",
+  email: 'mårten@salt.dev'
+}
+];
 
-app.use(morgan('tiny'));
-app.use(express.static('static'));
 
-app.get('/',(req, res)=>{
-    res.send("hello fellow devs!");
-});
+app.get('/', (req, res) => {
+    res
+      .status(201)
+      .setHeader(`location`,`/api/developer/2`)
+      .json(dev)
+  });
 
 const port = 3000;
 app.listen(port, ()=>{
