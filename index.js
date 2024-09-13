@@ -33,7 +33,31 @@ app.get('/api/developers/:id',(req, res)=>{
     res.status(404).end();
 });
 
-app.post('api/developers/',(req,res)=>{
+app.delete('/api/developers/:id',(req, res)=>{
+  const dev = db.findIndex((dev)=>dev.id==req.params.id);
+  if(dev!==-1){
+    db.splice(dev,1);
+  };
+  res.status(204).end();
+});
+
+app.patch('/api/developers/:id',(req, res)=>{
+  const index = db.findIndex((dev)=>dev.id==req.params.id);
+  if(index !==-1){
+    db[index]={
+      id: db[index].id,
+      name: req.body.name,
+      email: req.body.email
+    };
+  };
+  
+  res
+  .status(201)
+  .setHeader(`location`,`/api/developer/`)
+  .json(db);
+});
+
+app.post('/api/developers/',(req,res)=>{
   const newDev={
     id: db.length+1,
     name: req.body.name,
