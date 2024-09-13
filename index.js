@@ -37,8 +37,10 @@ app.delete('/api/developers/:id',(req, res)=>{
   const dev = db.findIndex((dev)=>dev.id==req.params.id);
   if(dev!==-1){
     db.splice(dev,1);
+    res.status(204).end();
+  }else{
+    res.status(404).end();
   };
-  res.status(204).end();
 });
 
 app.patch('/api/developers/:id',(req, res)=>{
@@ -49,12 +51,13 @@ app.patch('/api/developers/:id',(req, res)=>{
       name: req.body.name,
       email: req.body.email
     };
+    return res 
+    .status(201)
+    .setHeader(`location`,`/api/developer/`)
+    .json(db[index]);
+  }else{
+    return res.status(404).end();
   };
-  
-  res
-  .status(201)
-  .setHeader(`location`,`/api/developer/`)
-  .json(db);
 });
 
 app.post('/api/developers/',(req,res)=>{
